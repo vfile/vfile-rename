@@ -25,7 +25,8 @@
   ],
   "main": "index.js",
   "files": [
-    "index.js"
+    "index.js",
+    "convert.js"
   ],
   "dependencies": {
     "vfile": "^4.0.0"
