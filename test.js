@@ -5,7 +5,7 @@ var test = require('tape')
 var vfile = require('to-vfile')
 var rename = require('.')
 
-test('vfile-rename', function(t) {
+test('vfile-rename', function (t) {
   var file = vfile('index.js')
   t.equal(rename(file, 'main.js'), file, 'should return the file')
 
@@ -60,7 +60,7 @@ test('vfile-rename', function(t) {
   )
 
   t.throws(
-    function() {
+    function () {
       rename(vfile(), 1)
     },
     /Expected function, string, array, or object as renames/,
@@ -68,7 +68,7 @@ test('vfile-rename', function(t) {
   )
 
   t.throws(
-    function() {
+    function () {
       rename(vfile(), {other: '!'})
     },
     /Cannot rename `other`: it’s not a path property/,
@@ -76,7 +76,7 @@ test('vfile-rename', function(t) {
   )
 
   t.throws(
-    function() {
+    function () {
       rename(vfile(), {extname: '.js'})
     },
     /Setting `extname` requires `path` to be set too/,
