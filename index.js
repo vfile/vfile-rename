@@ -9,6 +9,6 @@ rename.convert = convert
 
 function rename(value, specs) {
   var file = vfile(value)
-  convert(specs)(value)
+  convert(specs)(file)
   return file
 }
