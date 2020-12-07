@@ -1,6 +1,6 @@
 'use strict'
 
-var {join} = require('path')
+var path = require('path')
 var test = require('tape')
 var vfile = require('to-vfile')
 var rename = require('.')
@@ -48,7 +48,7 @@ test('vfile-rename', function (t) {
   file = vfile({basename: 'index.js', dirname: 'example'})
   t.equal(
     rename(file, {stem: {suffix: '-1'}, dirname: {prefix: 'an-'}}).path,
-    join('an-example', 'index-1.js'),
+    path.join('an-example', 'index-1.js'),
     'should support a spec (#3)'
   )
 
