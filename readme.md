@@ -120,9 +120,9 @@ abide by its terms.
 
 <!-- Definitions -->
 
-[build-badge]: https://img.shields.io/travis/vfile/vfile-rename.svg
+[build-badge]: https://github.com/vfile/vfile-rename/workflows/main/badge.svg
 
-[build]: https://travis-ci.org/vfile/vfile-rename
+[build]: https://github.com/vfile/vfile-rename/actions
 
 [coverage-badge]: https://img.shields.io/codecov/c/github/vfile/vfile-rename.svg
 
