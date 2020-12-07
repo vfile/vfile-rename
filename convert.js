@@ -33,9 +33,7 @@ function specFactory(specs) {
   var props = []
   var changes = []
   var prop
-  var length
   var index
-  var spec
 
   // Fail on non-path props.
   for (prop in specs) {
@@ -47,23 +45,21 @@ function specFactory(specs) {
   }
 
   // Create changes for all specs.
-  length = props.length
-  index = -1
   props.sort(sort)
+  index = -1
 
-  while (++index < length) {
+  while (++index < props.length) {
     prop = props[index]
-    spec = specs[prop]
 
-    if (typeof spec === 'string') {
-      changes.push(setter(prop, spec))
+    if (typeof specs[prop] === 'string') {
+      changes.push(setter(prop, specs[prop]))
     } else {
-      if (spec.prefix) {
-        changes.push(prefix(prop, spec.prefix))
+      if (specs[prop].prefix) {
+        changes.push(prefix(prop, specs[prop].prefix))
       }
 
-      if (spec.suffix) {
-        changes.push(suffix(prop, spec.suffix))
+      if (specs[prop].suffix) {
+        changes.push(suffix(prop, specs[prop].suffix))
       }
     }
   }
@@ -73,10 +69,9 @@ function specFactory(specs) {
 
 function convertAll(specs) {
   var changes = []
-  var length = specs.length
   var index = -1
 
-  while (++index < length) {
+  while (++index < specs.length) {
     changes[index] = convert(specs[index])
   }
 
@@ -84,15 +79,13 @@ function convertAll(specs) {
 }
 
 function allFactory(changes) {
-  var length = changes.length
-
   return all
 
   function all(file) {
     var history = file.history.concat()
     var index = -1
 
-    while (++index < length) {
+    while (++index < changes.length) {
       changes[index](file)
     }
 
