@@ -20,6 +20,7 @@
     "type": "opencollective",
     "url": "https://opencollective.com/unified"
   },
+  "types": "types/index.d.ts",
   "author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
   "contributors": [
     "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)"
