@@ -9,7 +9,7 @@ function move(file: vfile.VFile) {
 }
 
 rename()
-rename('!')
+rename('!') // $ExpectType VFile
 rename({path: '/'})
 rename(file, 'main.js')
 rename(file, '.ts')
