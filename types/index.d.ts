@@ -31,7 +31,9 @@ declare namespace rename {
   }
 
   /**
-   * A spec is an object describing path properties to values. For each property in spec, if its value is string, the value of the path property on the given file is set. If the value is object, it can have a prefix or suffix key, the value of the path property on the given file is prefixed and/or suffixed.
+   * A spec is an object describing path properties to values.
+   * For each property in spec, if its value is string, the value of the path property on the given file is set.
+   * If the value is object, it can have a prefix or suffix key, the value of the path property on the given file is prefixed and/or suffixed.
    */
   interface Spec {
     path?: VFileOptions['path'] | SpecAffix
