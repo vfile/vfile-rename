@@ -14,8 +14,8 @@ rename(file, {stem: 'main'}) // $ExpectType VFile
 rename(file, {stem: 'readme', extname: '.md'}) // $ExpectType VFile
 rename(file, {stem: {suffix: '-1'}, dirname: {prefix: 'an-'}}) // $ExpectType VFile
 rename(file, ['readme.htm', {stem: 'index', extname: {suffix: 'l'}}]) // $ExpectType VFile
-rename(vfile(), 1) // $ExpectError
-rename(vfile(), {other: '!'}) // $ExpectError
+rename(file, 1) // $ExpectError
+rename(file, {other: '!'}) // $ExpectError
 
 convert('!') // $ExpectType Move
 convert({path: '/'}) // $ExpectType Move
