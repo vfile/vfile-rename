@@ -8,13 +8,14 @@ function move(file: vfile.VFile) {
   return file
 }
 
-rename()
+rename() // $ExpectType VFile
 rename('!') // $ExpectType VFile
-rename({path: '/'})
-rename(file, 'main.js')
-rename(file, '.ts')
-rename(file, move)
-rename(file, {stem: 'main'})
-rename(file, {stem: 'readme', extname: '.md'})
-rename(file, {stem: {suffix: '-1'}, dirname: {prefix: 'an-'}})
-rename(file, ['readme.htm', {stem: 'index', extname: {suffix: 'l'}}])
+rename({path: '/'}) // $ExpectType VFile
+rename(file, 'main.js') // $ExpectType VFile
+rename(file, '.ts') // $ExpectType VFile
+rename(file, move) // $ExpectType VFile
+rename(file, {stem: 'main'}) // $ExpectType VFile
+rename(file, {stem: 'readme', extname: '.md'}) // $ExpectType VFile
+rename(file, {stem: {suffix: '-1'}, dirname: {prefix: 'an-'}}) // $ExpectType VFile
+rename(file, ['readme.htm', {stem: 'index', extname: {suffix: 'l'}}]) // $ExpectType VFile
+
