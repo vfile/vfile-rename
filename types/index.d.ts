@@ -1,4 +1,6 @@
-import {VFile} from 'vfile'
+// TypeScript Version: 3.7
+
+import {VFile, VFileCompatible, VFileOptions} from 'vfile'
 
 export = rename
 
@@ -11,7 +13,6 @@ export = rename
  * - Otherwise, if the bound rename is an object, renames according to the Spec
  * @param file VFile to rename
  * @returns The renamed `file`
- * @see https://github.com/vfile/vfile-rename#movefile
  */
 declare function move(file: VFile): VFile
 
@@ -20,28 +21,29 @@ declare function move(file: VFile): VFile
  * @param file VFile to rename
  * @param renames Rename instructions
  * @returns The renamed `file`
- * @see https://github.com/vfile/vfile-rename#renamefile-renames
  */
-declare function rename(file: VFile, renames: rename.Renames): VFile
+declare function rename(file?: VFileCompatible, renames?: rename.Renames): VFile
 
 declare namespace rename {
-  /**
-   * @see https://github.com/vfile/vfile-rename#spec
-   */
-  type Spec = {
-    path?: string
-    basename?: string
-    stem?: string
-    extname?: string
-    dirname?: string
+  interface SpecAffix {
+    prefix?: string
+    suffix?: string
   }
-  type Renames = string | typeof move | Spec | Array<Renames>
+
+  interface Spec {
+    path?: VFileOptions['path'] | SpecAffix
+    basename?: VFileOptions['basename'] | SpecAffix
+    stem?: VFileOptions['stem'] | SpecAffix
+    extname?: VFileOptions['extname'] | SpecAffix
+    dirname?: VFileOptions['dirname'] | SpecAffix
+  }
+
+  type Renames = string | typeof move | Spec | Renames[]
 
   /**
    * Create a function (the [move](https://github.com/vfile/vfile-rename#movefile)) from `renames`, that when given a file changes its path properties.
    * @param renames Rename instructions
    * @returns A [move](https://github.com/vfile/vfile-rename#movefile)
-   * @see https://github.com/vfile/vfile-rename#convertrenames
    */
   function convert(renames: Renames): typeof move
 }
