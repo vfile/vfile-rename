@@ -20,6 +20,7 @@
     "type": "opencollective",
     "url": "https://opencollective.com/unified"
   },
+  "types": "types/index.d.ts",
   "author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
   "contributors": [
     "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)"
@@ -27,12 +28,14 @@
   "main": "index.js",
   "files": [
     "index.js",
-    "convert.js"
+    "convert.js",
+    "types/index.d.ts"
   ],
   "dependencies": {
     "vfile": "^4.0.0"
   },
   "devDependencies": {
+    "dtslint": "^4.0.6",
     "nyc": "^15.0.0",
     "prettier": "^2.0.0",
     "remark-cli": "^9.0.0",
@@ -45,7 +48,8 @@
     "format": "remark . -qfo && prettier . -w --loglevel warn && xo --fix",
     "test-api": "node test",
     "test-coverage": "nyc --reporter lcov tape test.js",
-    "test": "npm run format && npm run test-coverage"
+    "test-types": "dtslint types",
+    "test": "npm run format && npm run test-coverage && npm run test-types"
   },
   "nyc": {
     "check-coverage": true,
