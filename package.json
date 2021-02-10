@@ -1,6 +1,6 @@
 {
   "name": "vfile-rename",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "vfile utility to rename the path parts of a file",
   "license": "MIT",
   "keywords": [
