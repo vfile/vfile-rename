@@ -59,6 +59,7 @@ test('vfile-rename', function (t) {
 
   t.throws(
     function () {
+      // @ts-ignore runtime.
       rename(vfile(), 1)
     },
     /Expected function, string, array, or object as renames/,
@@ -67,6 +68,7 @@ test('vfile-rename', function (t) {
 
   t.throws(
     function () {
+      // @ts-ignore runtime.
       rename(vfile(), {other: '!'})
     },
     /Cannot rename `other`: it’s not a path property/,
@@ -83,7 +85,7 @@ test('vfile-rename', function (t) {
 
   t.end()
 
-  function move(file) {
+  function move(/** @type {import('vfile').VFile} */ file) {
     file.stem = 'main'
   }
 })
