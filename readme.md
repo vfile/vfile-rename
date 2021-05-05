@@ -12,6 +12,9 @@ Rename a [`vfile`][vfile].
 
 ## Install
 
+This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c):
+Node 12+ is needed to use it and it must be `import`ed instead of `require`d.
+
 [npm][]:
 
 ```sh
@@ -21,8 +24,8 @@ npm install vfile-rename
 ## Use
 
 ```js
-var vfile = require('to-vfile')
-var rename = require('vfile-rename')
+import {toVFile as vfile} from 'to-vfile'
+import {rename} from 'vfile-rename'
 
 var file = vfile('readme.md')
 file.path // => readme.md
@@ -49,6 +52,9 @@ file.path // => index.html
 ```
 
 ## API
+
+This package exports the following identifiers: `rename`, `convert`.
+There is no default export.
 
 ### `rename(file, renames)`
 

@@ -1,9 +1,7 @@
-'use strict'
-
-var path = require('path')
-var test = require('tape')
-var vfile = require('to-vfile')
-var rename = require('.')
+import path from 'path'
+import test from 'tape'
+import {toVFile as vfile} from 'to-vfile'
+import {rename} from './index.js'
 
 test('vfile-rename', function (t) {
   var file = vfile('index.js')
