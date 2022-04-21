@@ -66,7 +66,7 @@ If you’re doing a lot of renames, use `convert` (`rename.convert` or
 
 ###### Parameters
 
-*   `renames` (`string`, `Function`, `Spec`, or `Array.<rename>`, optional)
+*   `renames` (`string`, `Function`, `Spec`, or `Array<rename>`, optional)
 
 ###### Returns
 
@@ -79,7 +79,7 @@ its path properties.
 
 ###### Parameters
 
-*   `renames` (`string`, `Function`, `Spec`, or `Array.<rename>`, optional)
+*   `renames` (`string`, `Function`, `Spec`, or `Array<rename>`, optional)
 
 ###### Returns
 

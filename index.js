@@ -22,17 +22,17 @@
  *
  * @typedef {(file: VFile) => any} AnyMove
  *
- * @typedef {string|AnyMove|Spec|Array.<string|AnyMove|Spec>} Renames
+ * @typedef {string|AnyMove|Spec|Array<string|AnyMove|Spec>} Renames
  */
 
 import {VFile} from 'vfile'
 
-var own = {}.hasOwnProperty
+const own = {}.hasOwnProperty
 
 // Order of renaming properties.
 // See <https://github.com/vfile/vfile/blob/f4f96ed/lib/index.js#L49>
 // Other properties are invalid.
-var order = ['path', 'basename', 'stem', 'extname', 'dirname']
+const order = ['path', 'basename', 'stem', 'extname', 'dirname']
 
 /**
  * Renames the given `file` with `renames`
@@ -41,7 +41,7 @@ var order = ['path', 'basename', 'stem', 'extname', 'dirname']
  * @returns {VFile} The renamed `file`
  */
 export function rename(value, renames) {
-  var file = value instanceof VFile ? value : new VFile(value)
+  const file = value instanceof VFile ? value : new VFile(value)
   convert(renames)(file)
   return file
 }
@@ -79,14 +79,12 @@ export function convert(renames) {
  * @returns {Move}
  */
 function specFactory(spec) {
-  /** @type {Array.<string>} */
-  var props = []
-  /** @type {Array.<Move>} */
-  var moves = []
+  /** @type {Array<string>} */
+  const props = []
+  /** @type {Array<Move>} */
+  const moves = []
   /** @type {string} */
-  var prop
-  /** @type {number} */
-  var index
+  let prop
 
   // Fail on non-path props.
   for (prop in spec) {
@@ -103,10 +101,10 @@ function specFactory(spec) {
 
   // Create moves for all specs.
   props.sort(sort)
-  index = -1
+  let index = -1
 
   while (++index < props.length) {
-    prop = props[index]
+    const prop = props[index]
 
     if (typeof spec[prop] === 'string') {
       moves.push(setter(prop, spec[prop]))
@@ -125,13 +123,13 @@ function specFactory(spec) {
 }
 
 /**
- * @param {Array.<string|Move|Spec>} renames
- * @returns {Array.<Move>}
+ * @param {Array<string|Move|Spec>} renames
+ * @returns {Array<Move>}
  */
 function convertAll(renames) {
-  /** @type {Array.<Move>} */
-  var moves = []
-  var index = -1
+  /** @type {Array<Move>} */
+  const moves = []
+  let index = -1
 
   while (++index < renames.length) {
     moves[index] = convert(renames[index])
@@ -149,8 +147,8 @@ function allFactory(changes) {
 
   /** @type {Move} */
   function all(file) {
-    var history = file.history.concat()
-    var index = -1
+    const history = file.history.concat()
+    let index = -1
 
     while (++index < changes.length) {
       changes[index](file)

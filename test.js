@@ -4,7 +4,7 @@ import {toVFile as vfile} from 'to-vfile'
 import {rename} from './index.js'
 
 test('vfile-rename', function (t) {
-  var file = vfile('index.js')
+  let file = vfile('index.js')
   t.equal(rename(file, 'main.js'), file, 'should return the file')
 
   file = vfile('index.js')
