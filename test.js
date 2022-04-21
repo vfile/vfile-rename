@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'node:path'
 import test from 'tape'
 import {toVFile as vfile} from 'to-vfile'
 import {rename} from './index.js'
