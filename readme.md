@@ -8,26 +8,63 @@
 [![Backers][backers-badge]][collective]
 [![Chat][chat-badge]][chat]
 
-Rename a [`vfile`][vfile].
+[`vfile`][vfile] utility to rename a file.
+
+## Contents
+
+*   [What is this?](#what-is-this)
+*   [When should I use this?](#when-should-i-use-this)
+*   [Install](#install)
+*   [Use](#use)
+*   [API](#api)
+    *   [`rename(file, renames)`](#renamefile-renames)
+    *   [`convert(renames)`](#convertrenames)
+    *   [`Spec`](#spec)
+*   [Types](#types)
+*   [Compatibility](#compatibility)
+*   [Security](#security)
+*   [Contribute](#contribute)
+*   [License](#license)
+
+## What is this?
+
+This package is a utility to add different data-driven ways to rename files.
+
+## When should I use this?
+
+This package is mostly useful when creating higher level tools that include
+support for renaming files to end users.
 
 ## Install
 
-This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c):
-Node 12+ is needed to use it and it must be `import`ed instead of `require`d.
-
-[npm][]:
+This package is [ESM only][esm].
+In Node.js (version 12.20+, 14.14+, or 16.0+), install with [npm][]:
 
 ```sh
 npm install vfile-rename
 ```
 
+In Deno with [`esm.sh`][esmsh]:
+
+```js
+import {rename} from 'https://esm.sh/vfile-rename@2'
+```
+
+In browsers with [`esm.sh`][esmsh]:
+
+```html
+<script type="module">
+  import {rename} from 'https://esm.sh/vfile-rename@2?bundle'
+</script>
+```
+
 ## Use
 
 ```js
-import {toVFile as vfile} from 'to-vfile'
+import {VFile} from 'vfile'
 import {rename} from 'vfile-rename'
 
-var file = vfile('readme.md')
+const file = new VFile({path: 'readme.md'})
 file.path // => readme.md
 
 // Set extname:
@@ -53,55 +90,62 @@ file.path // => index.html
 
 ## API
 
-This package exports the following identifiers: `rename`, `convert`.
+This package exports the identifiers `rename` and `convert`.
 There is no default export.
 
 ### `rename(file, renames)`
 
-Renames the given `file` with `renames`.
+Rename a file.
+Calls `convert` and then the resulting [`move`][move] internally.
 
-Converts `renames` to a [move][], and calls that move with `file`.
-If you’re doing a lot of renames, use `convert` (`rename.convert` or
-`require('vfile-rename/convert')` directly).
+###### Overview
+
+*   `'.md'` (`string` starting w/ dot) — change extension
+*   `'example.md'` (`string` not starting w/ dot) — change basename
+*   `{stem: 'readme'}` (`Record<Field, string>`) — change a field (supports
+    `'path'`, `'basename'`, `'stem'`, `'extname'`, and/or `'dirname'`)
+*   `{basename: {suffix: '-2'}}` (`Record<Field, SpecAffix>`) — prepend
+    (`prefix`) or append (`suffix`) to a field
 
 ###### Parameters
 
-*   `renames` (`string`, `Function`, `Spec`, or `Array<rename>`, optional)
+*   `file` (`VFile`) — any value accepted by `vfile()`
+*   `renames` (`string`, `Function`, `Spec`, or `Array<Rename>`, optional)
 
 ###### Returns
 
-The given `file`.
+The given `file` (`VFile`).
 
 ### `convert(renames)`
 
-Create a function (the [move][]) from `renames`, that when given a file changes
-its path properties.
+Create a function (the [`move`][move]) from `renames` that when given a file
+changes its path properties.
 
 ###### Parameters
 
-*   `renames` (`string`, `Function`, `Spec`, or `Array<rename>`, optional)
+*   `renames` (`string`, `Function`, `Spec`, or `Array<Rename>`, optional)
 
 ###### Returns
 
-A [move][].
+A [`move`][move].
 
 #### `move(file)`
 
-When given something, returns a [vfile][] from that, and changes its path
+When given something, returns a [vfile][] from that and changes its path
 properties.
 
-*   If there is no bound rename (it’s null or undefined), makes sure `file` is a
-    [`VFile`][vfile]
-*   If the bound rename is a normal string starting with a dot (`.`), sets
-    `file.extname`
-*   Otherwise, if the bound rename is a normal string, sets `file.basename`
-*   If the bound test is an array, all renames in it are performed
-*   Otherwise, if the bound rename is an object, renames according to the
+*   if there is no bound rename (it’s `null` or `undefined`), makes sure `file`
+    is a `VFile`
+*   otherwise, if the bound rename is a normal string starting with a dot (`.`),
+    sets `file.extname`
+*   otherwise, if the bound rename is a normal string, sets `file.basename`
+*   otherwise, if the bound test is an array, all renames in it are performed
+*   otherwise, if the bound rename is an object, renames according to the
     [`Spec`][spec]
 
 ### `Spec`
 
-A spec is an object describing path properties to values.
+An object describing path properties to values.
 For each property in `spec`, if its value is `string`, the value of the path
 property on the given file is set.
 If the value is `object`, it can have a `prefix` or `suffix` key, the value of
@@ -109,6 +153,22 @@ the path property on the given file is prefixed and/or suffixed.
 
 Note that only [allowed][] path properties can be set, other properties are
 thrown for.
+
+## Types
+
+This package is fully typed with [TypeScript][].
+The extra types `SpecAffix`, `Spec`, `Move`, and `Renames` are exported.
+
+## Compatibility
+
+Projects maintained by the unified collective are compatible with all maintained
+versions of Node.js.
+As of now, that is Node.js 12.20+, 14.14+, and 16.0+.
+Our projects sometimes work with older versions, but this is not guaranteed.
+
+## Security
+
+Use of `vfile-rename` is safe by default.
 
 ## Contribute
 
@@ -154,13 +214,19 @@ abide by its terms.
 
 [npm]: https://docs.npmjs.com/cli/install
 
-[contributing]: https://github.com/vfile/.github/blob/HEAD/contributing.md
+[esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
 
-[support]: https://github.com/vfile/.github/blob/HEAD/support.md
+[esmsh]: https://esm.sh
+
+[typescript]: https://www.typescriptlang.org
+
+[contributing]: https://github.com/vfile/.github/blob/main/contributing.md
+
+[support]: https://github.com/vfile/.github/blob/main/support.md
 
 [health]: https://github.com/vfile/.github
 
-[coc]: https://github.com/vfile/.github/blob/HEAD/code-of-conduct.md
+[coc]: https://github.com/vfile/.github/blob/main/code-of-conduct.md
 
 [license]: license
 

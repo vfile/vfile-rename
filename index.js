@@ -4,24 +4,36 @@
  *
  * @typedef SpecAffix
  * @property {string} [prefix]
+ *   Substring to prepend in front of the field.
  * @property {string} [suffix]
+ *   Substring to append after the field.
  *
- * @typedef Spec A spec is an object describing path properties to values. For each property in spec, if its value is string, the value of the path property on the given file is set. If the value is object, it can have a prefix or suffix key, the value of the path property on the given file is prefixed and/or suffixed.
+ * @typedef Spec
+ *   An object describing path properties to values.
+ *   For each property in spec, if its value is string, the value of the path
+ *   property on the given file is set.
+ *   If the value is object, it can have a prefix or suffix key, the value of
+ *   the path property on the given file is prefixed and/or suffixed.
  * @property {VFileOptions['path']|SpecAffix} [path]
  * @property {VFileOptions['basename']|SpecAffix} [basename]
  * @property {VFileOptions['stem']|SpecAffix} [stem]
  * @property {VFileOptions['extname']|SpecAffix} [extname]
  * @property {VFileOptions['dirname']|SpecAffix} [dirname]
  *
- * @typedef {(file: VFile) => VFile} Move When given something, returns a vfile from that, and changes its path properties.
- *   - If there is no bound rename (it’s null or undefined), makes sure file is a VFile
- *   - If the bound rename is a normal string starting with a dot (.), sets file.extname
- *   - Otherwise, if the bound rename is a normal string, sets file.basename
- *   - If the bound test is an array, all renames in it are performed
- *   - Otherwise, if the bound rename is an object, renames according to the Spec
+ * @typedef {(file: VFile) => VFile} Move
+ *   When given something, returns a vfile from that, and changes its path
+ *   properties.
  *
+ *   *   if there is no bound rename (it’s `null` or `undefined`), makes sure
+ *       `file` is a `VFile`
+ *   *   otherwise, if the bound rename is a normal string starting with a dot
+ *       (`.`), sets `file.extname`
+ *   *   otherwise, if the bound rename is a normal string, sets `file.basename`
+ *   *   otherwise, if the bound test is an array, all renames in it are
+ *       performed
+ *   *   otherwise, if the bound rename is an object, renames according to the
+ *       `Spec`
  * @typedef {(file: VFile) => any} AnyMove
- *
  * @typedef {string|AnyMove|Spec|Array<string|AnyMove|Spec>} Renames
  */
 
@@ -30,15 +42,19 @@ import {VFile} from 'vfile'
 const own = {}.hasOwnProperty
 
 // Order of renaming properties.
-// See <https://github.com/vfile/vfile/blob/f4f96ed/lib/index.js#L49>
+// See <https://github.com/vfile/vfile/blob/7339f82/lib/index.js#L58>
 // Other properties are invalid.
 const order = ['path', 'basename', 'stem', 'extname', 'dirname']
 
 /**
- * Renames the given `file` with `renames`
- * @param {VFileCompatible} [value] VFile to rename
- * @param {Renames} [renames] Rename instructions
- * @returns {VFile} The renamed `file`
+ * Rename a file.
+ *
+ * @param {VFileCompatible} [value]
+ *   File to rename.
+ * @param {Renames} [renames]
+ *   Rename instructions.
+ * @returns {VFile}
+ *   The renamed `file`.
  */
 export function rename(value, renames) {
   const file = value instanceof VFile ? value : new VFile(value)
