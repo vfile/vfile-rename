@@ -65,8 +65,11 @@ export function rename(value, renames) {
 /**
  * Create a function (the move) from `renames`, that when given a file changes
  * its path properties.
- * @param {Renames} [renames] Rename instructions
- * @returns {Move} A [move](https://github.com/vfile/vfile-rename#movefile)
+ *
+ * @param {Renames} [renames]
+ *   Rename instructions.
+ * @returns {Move}
+ *   A move.
  */
 export function convert(renames) {
   if (renames === null || renames === undefined) {
