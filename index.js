@@ -20,6 +20,8 @@
  * @property {VFileOptions['extname']|SpecAffix} [extname]
  * @property {VFileOptions['dirname']|SpecAffix} [dirname]
  *
+ * @typedef {'path' | 'basename' | 'stem' | 'extname' | 'dirname'} SpecKey
+ *
  * @typedef {(file: VFile) => VFile} Move
  *   When given something, returns a vfile from that, and changes its path
  *   properties.
@@ -98,11 +100,11 @@ export function convert(renames) {
  * @returns {Move}
  */
 function specFactory(spec) {
-  /** @type {Array<string>} */
+  /** @type {Array<SpecKey>} */
   const props = []
   /** @type {Array<Move>} */
   const moves = []
-  /** @type {string} */
+  /** @type {SpecKey} */
   let prop
 
   // Fail on non-path props.
@@ -124,16 +126,17 @@ function specFactory(spec) {
 
   while (++index < props.length) {
     const prop = props[index]
+    const value = spec[prop]
 
-    if (typeof spec[prop] === 'string') {
-      moves.push(setter(prop, spec[prop]))
-    } else {
-      if (spec[prop].prefix) {
-        moves.push(prefix(prop, spec[prop].prefix))
+    if (typeof value === 'string') {
+      moves.push(setter(prop, value))
+    } else if (value) {
+      if ('prefix' in value && value.prefix) {
+        moves.push(prefix(prop, value.prefix))
       }
 
-      if (spec[prop].suffix) {
-        moves.push(suffix(prop, spec[prop].suffix))
+      if ('suffix' in value && value.suffix) {
+        moves.push(suffix(prop, value.suffix))
       }
     }
   }
@@ -181,8 +184,8 @@ function allFactory(changes) {
 }
 
 /**
- * @param {string} a
- * @param {string} b
+ * @param {SpecKey} a
+ * @param {SpecKey} b
  * @returns {number}
  */
 function sort(a, b) {
@@ -190,7 +193,7 @@ function sort(a, b) {
 }
 
 /**
- * @param {string} key
+ * @param {SpecKey} key
  * @param {string} value
  * @returns {Move}
  */
@@ -204,7 +207,7 @@ function setter(key, value) {
 }
 
 /**
- * @param {string} key
+ * @param {SpecKey} key
  * @param {string} prefix
  * @returns {Move}
  */
@@ -218,7 +221,7 @@ function prefix(key, prefix) {
 }
 
 /**
- * @param {string} key
+ * @param {SpecKey} key
  * @param {string} suffix
  * @returns {Move}
  */
