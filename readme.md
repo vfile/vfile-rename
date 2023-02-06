@@ -19,7 +19,10 @@
 *   [API](#api)
     *   [`rename(file, renames)`](#renamefile-renames)
     *   [`convert(renames)`](#convertrenames)
+    *   [`Move`](#move)
+    *   [`Renames`](#renames)
     *   [`Spec`](#spec)
+    *   [`SpecAffix`](#specaffix)
 *   [Types](#types)
 *   [Compatibility](#compatibility)
 *   [Security](#security)
@@ -38,7 +41,7 @@ support for renaming files to end users.
 ## Install
 
 This package is [ESM only][esm].
-In Node.js (version 12.20+, 14.14+, 16.0+, or 18.0+), install with [npm][]:
+In Node.js (version 14.14+ and 16.0+), install with [npm][]:
 
 ```sh
 npm install vfile-rename
@@ -90,80 +93,117 @@ file.path // => index.html
 
 ## API
 
-This package exports the identifiers `rename` and `convert`.
+This package exports the identifiers [`convert`][api-convert] and
+[`rename`][api-rename].
 There is no default export.
 
 ### `rename(file, renames)`
 
 Rename a file.
-Calls `convert` and then the resulting [`move`][move] internally.
 
-###### Overview
-
-*   `'.md'` (`string` starting w/ dot) — change extension
-*   `'example.md'` (`string` not starting w/ dot) — change basename
-*   `{stem: 'readme'}` (`Record<Field, string>`) — change a field (supports
-    `'path'`, `'basename'`, `'stem'`, `'extname'`, and/or `'dirname'`)
-*   `{basename: {suffix: '-2'}}` (`Record<Field, SpecAffix>`) — prepend
-    (`prefix`) or append (`suffix`) to a field
+When given something, returns a vfile from that, and changes its path
+properties.
 
 ###### Parameters
 
-*   `file` (`VFile`) — any value accepted by `vfile()`
-*   `renames` (`string`, `Function`, `Spec`, or `Array<Rename>`, optional)
+*   `file` (`VFile`)
+    — file to rename
+*   `renames` ([`Renames`][api-renames], optional)
+    — rename instructions
 
 ###### Returns
 
-The given `file` (`VFile`).
+The renamed `file` (`VFile`).
 
 ### `convert(renames)`
 
-Create a function (the [`move`][move]) from `renames` that when given a file
-changes its path properties.
+Create a function (the move) from `renames`, that when given a file changes
+its path properties.
 
 ###### Parameters
 
-*   `renames` (`string`, `Function`, `Spec`, or `Array<Rename>`, optional)
+*   `renames` ([`Renames`][api-renames], optional)
+    — rename instructions
 
 ###### Returns
 
-A [`move`][move].
+A move ([`Move`][api-move]).
 
-#### `move(file)`
+### `Move`
 
-When given something, returns a [vfile][] from that and changes its path
-properties.
+Move (TypeScript type).
 
-*   if there is no bound rename (it’s `null` or `undefined`), makes sure `file`
-    is a `VFile`
-*   otherwise, if the bound rename is a normal string starting with a dot (`.`),
-    sets `file.extname`
+###### Parameters
+
+*   `file` ([`VFile`][vfile])
+    — file to change
+
+###### Returns
+
+Nothing (`void`).
+
+### `Renames`
+
+Rename instructions (TypeScript type).
+
+*   if the bound rename is a normal string starting with a dot (`.`), sets
+    `file.extname`
 *   otherwise, if the bound rename is a normal string, sets `file.basename`
-*   otherwise, if the bound test is an array, all renames in it are performed
+*   otherwise, if the bound test is an array, all renames in it are
+    performed
 *   otherwise, if the bound rename is an object, renames according to the
-    [`Spec`][spec]
+    [`Spec`][api-spec]
+
+###### Type
+
+```ts
+type Renames = string | Move | Spec | Array<string | Move | Spec>
+```
 
 ### `Spec`
 
-An object describing path properties to values.
-For each property in `spec`, if its value is `string`, the value of the path
+An object describing path properties to values (TypeScript type).
+
+For each property in spec, if its value is string, the value of the path
 property on the given file is set.
-If the value is `object`, it can have a `prefix` or `suffix` key, the value of
+If the value is object, it can have a prefix or suffix key, the value of
 the path property on the given file is prefixed and/or suffixed.
 
-Note that only [allowed][] path properties can be set, other properties are
-thrown for.
+###### Fields
+
+*   `basename` (`string` or [`SpecAffix`][api-spec-affix], optional)
+    — change basename (`'index.min.js'`).
+*   `dirname` (`string` or [`SpecAffix`][api-spec-affix], optional)
+    — change dirname (`'~'`).
+*   `extname` (`string` or [`SpecAffix`][api-spec-affix], optional)
+    — change extname (`'.js'`).
+*   `path` (`string`, `URL` or [`SpecAffix`][api-spec-affix], optional)
+    — change file path (`'~/index.min.js'`).
+*   `stem` (`string` or [`SpecAffix`][api-spec-affix], optional)
+    — change stem (`'index.min'`).
+
+### `SpecAffix`
+
+Define prepending and/or appending (TypeScript type).
+
+###### Fields
+
+*   `prefix` (`string`, optional)
+    — substring to prepend in front of the field
+*   `suffix` (`string`, optional)
+    — substring to append after the field.
 
 ## Types
 
 This package is fully typed with [TypeScript][].
-The extra types `SpecAffix`, `Spec`, `Move`, and `Renames` are exported.
+It exports the types [`Move`][api-move], [`Renames`][api-renames],
+[`Spec`][api-spec], and [`SpecAffix`][api-spec-affix].
 
 ## Compatibility
 
 Projects maintained by the unified collective are compatible with all maintained
 versions of Node.js.
-As of now, that is Node.js 12.20+, 14.14+, 16.0+, and 18.0+.
+As of now, that is Node.js 14.14+ and 16.0+.
 Our projects sometimes work with older versions, but this is not guaranteed.
 
 ## Security
@@ -234,8 +274,14 @@ abide by its terms.
 
 [vfile]: https://github.com/vfile/vfile
 
-[allowed]: https://github.com/vfile/vfile/blob/d88717d/core.js#L15
+[api-convert]: #convertrenames
 
-[move]: #movefile
+[api-rename]: #renamefile-renames
 
-[spec]: #spec
+[api-move]: #move
+
+[api-renames]: #renames
+
+[api-spec]: #spec
+
+[api-spec-affix]: #specaffix
