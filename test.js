@@ -7,8 +7,15 @@ import path from 'node:path'
 import test from 'node:test'
 import {toVFile as vfile} from 'to-vfile'
 import {rename} from './index.js'
+import * as mod from './index.js'
 
-test('vfile-rename', function () {
+test('rename', function () {
+  assert.deepEqual(
+    Object.keys(mod).sort(),
+    ['convert', 'rename'],
+    'should expose the public api'
+  )
+
   let file = vfile('index.js')
   assert.equal(rename(file, 'main.js'), file, 'should return the file')
 
