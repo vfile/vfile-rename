@@ -113,7 +113,7 @@ properties.
 
 ###### Returns
 
-The renamed `file` (`VFile`).
+Nothing (`undefined`).
 
 ### `convert(renames)`
 
@@ -140,7 +140,7 @@ Move (TypeScript type).
 
 ###### Returns
 
-Nothing (`void`).
+Nothing (`undefined`).
 
 ### `Renames`
 
