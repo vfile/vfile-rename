@@ -206,8 +206,8 @@ versions of Node.js.
 
 When we cut a new major release, we drop support for unmaintained versions of
 Node.
-This means we try to keep the current release line, `vfile-rename@^2`,
-compatible with Node.js 12.
+This means we try to keep the current release line, `vfile-rename@^3`,
+compatible with Node.js 16.
 
 ## Security
 
