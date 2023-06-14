@@ -17,8 +17,8 @@
 *   [Install](#install)
 *   [Use](#use)
 *   [API](#api)
-    *   [`rename(file, renames)`](#renamefile-renames)
     *   [`convert(renames)`](#convertrenames)
+    *   [`rename(file, renames)`](#renamefile-renames)
     *   [`Move`](#move)
     *   [`Renames`](#renames)
     *   [`Spec`](#spec)
@@ -41,7 +41,7 @@ support for renaming files to end users.
 ## Install
 
 This package is [ESM only][esm].
-In Node.js (version 14.14+ and 16.0+), install with [npm][]:
+In Node.js (version 16+), install with [npm][]:
 
 ```sh
 npm install vfile-rename
@@ -97,6 +97,20 @@ This package exports the identifiers [`convert`][api-convert] and
 [`rename`][api-rename].
 There is no default export.
 
+### `convert(renames)`
+
+Create a function (the move) from `renames`, that when given a file changes
+its path properties.
+
+###### Parameters
+
+*   `renames` ([`Renames`][api-renames], optional)
+    — rename instructions
+
+###### Returns
+
+A move ([`Move`][api-move]).
+
 ### `rename(file, renames)`
 
 Rename a file.
@@ -114,20 +128,6 @@ properties.
 ###### Returns
 
 Nothing (`undefined`).
-
-### `convert(renames)`
-
-Create a function (the move) from `renames`, that when given a file changes
-its path properties.
-
-###### Parameters
-
-*   `renames` ([`Renames`][api-renames], optional)
-    — rename instructions
-
-###### Returns
-
-A move ([`Move`][api-move]).
 
 ### `Move`
 
@@ -171,15 +171,15 @@ the path property on the given file is prefixed and/or suffixed.
 
 ###### Fields
 
-*   `basename` (`string` or [`SpecAffix`][api-spec-affix], optional)
+*   `basename` ([`SpecAffix`][api-spec-affix] or `string`, optional)
     — change basename (`'index.min.js'`).
-*   `dirname` (`string` or [`SpecAffix`][api-spec-affix], optional)
+*   `dirname` ([`SpecAffix`][api-spec-affix] or `string`, optional)
     — change dirname (`'~'`).
-*   `extname` (`string` or [`SpecAffix`][api-spec-affix], optional)
+*   `extname` ([`SpecAffix`][api-spec-affix] or `string`, optional)
     — change extname (`'.js'`).
-*   `path` (`string`, `URL` or [`SpecAffix`][api-spec-affix], optional)
+*   `path` ([`SpecAffix`][api-spec-affix], `URL`, or `string`, optional)
     — change file path (`'~/index.min.js'`).
-*   `stem` (`string` or [`SpecAffix`][api-spec-affix], optional)
+*   `stem` ([`SpecAffix`][api-spec-affix] or `string`, optional)
     — change stem (`'index.min'`).
 
 ### `SpecAffix`
@@ -189,7 +189,7 @@ Define prepending and/or appending (TypeScript type).
 ###### Fields
 
 *   `prefix` (`string`, optional)
-    — substring to prepend in front of the field
+    — substring to prepend before the field
 *   `suffix` (`string`, optional)
     — substring to append after the field.
 
@@ -201,14 +201,17 @@ It exports the types [`Move`][api-move], [`Renames`][api-renames],
 
 ## Compatibility
 
-Projects maintained by the unified collective are compatible with all maintained
+Projects maintained by the unified collective are compatible with maintained
 versions of Node.js.
-As of now, that is Node.js 14.14+ and 16.0+.
-Our projects sometimes work with older versions, but this is not guaranteed.
+
+When we cut a new major release, we drop support for unmaintained versions of
+Node.
+This means we try to keep the current release line, `vfile-rename@^2`,
+compatible with Node.js 12.
 
 ## Security
 
-Use of `vfile-rename` is safe by default.
+Use of `vfile-rename` is safe.
 
 ## Contribute
 
@@ -238,9 +241,9 @@ abide by its terms.
 
 [downloads]: https://www.npmjs.com/package/vfile-rename
 
-[size-badge]: https://img.shields.io/bundlephobia/minzip/vfile-rename.svg
+[size-badge]: https://img.shields.io/badge/dynamic/json?label=minzipped%20size&query=$.size.compressedSize&url=https://deno.bundlejs.com/?q=vfile-rename
 
-[size]: https://bundlephobia.com/result?p=vfile-rename
+[size]: https://bundlejs.com/?q=vfile-rename
 
 [sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
 
