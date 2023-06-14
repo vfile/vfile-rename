@@ -6,11 +6,11 @@ import assert from 'node:assert/strict'
 import path from 'node:path'
 import test from 'node:test'
 import {toVFile} from 'to-vfile'
-import {rename} from './index.js'
+import {rename} from 'vfile-rename'
 
 test('rename', async function () {
   assert.deepEqual(
-    Object.keys(await import('./index.js')).sort(),
+    Object.keys(await import('vfile-rename')).sort(),
     ['convert', 'rename'],
     'should expose the public api'
   )
