@@ -50,14 +50,14 @@ npm install vfile-rename
 In Deno with [`esm.sh`][esmsh]:
 
 ```js
-import {rename} from 'https://esm.sh/vfile-rename@2'
+import {rename} from 'https://esm.sh/vfile-rename@3'
 ```
 
 In browsers with [`esm.sh`][esmsh]:
 
 ```html
 <script type="module">
-  import {rename} from 'https://esm.sh/vfile-rename@2?bundle'
+  import {rename} from 'https://esm.sh/vfile-rename@3?bundle'
 </script>
 ```
 
