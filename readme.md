@@ -157,7 +157,7 @@ Rename instructions (TypeScript type).
 ###### Type
 
 ```ts
-type Renames = string | Move | Spec | Array<string | Move | Spec>
+type Renames = Array<Move | Spec | string> | Move | Spec | string
 ```
 
 ### `Spec`
